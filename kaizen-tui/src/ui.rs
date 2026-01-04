@@ -9,13 +9,25 @@ use ratatui::{
 use crate::app::{App};
 
 pub fn ui(frame:&mut Frame, app: &App) {
-    let chunks = Layout::default() 
-        .direction(Direction::Horizontal)
+
+    let vertical_chunks = Layout::default() 
+        .direction(Direction::Vertical)
         .constraints([
-            Constraint::Percentage(50),
-            Constraint::Percentage(50),
+            Constraint::Percentage(10),
+            Constraint::Min(1),
+            Constraint::Percentage(10),
         ])
         .split(frame.area());
+
+    let horizontal_chunks = Layout::default() 
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Percentage(10),
+            Constraint::Percentage(40),
+            Constraint::Percentage(40),
+            Constraint::Percentage(10),
+        ])
+        .split(vertical_chunks[1]);
 
     let title_block = Block::default()
         .borders(Borders::ALL)
@@ -33,6 +45,6 @@ pub fn ui(frame:&mut Frame, app: &App) {
             ))
         .block(title_block);
 
-    frame.render_widget(left_title, chunks[0]);
-    frame.render_widget(right_title, chunks[1]);
+    frame.render_widget(left_title, horizontal_chunks[1]);
+    frame.render_widget(right_title, horizontal_chunks[2]);
 }
