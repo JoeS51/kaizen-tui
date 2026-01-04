@@ -15,7 +15,7 @@ use ratatui::{
 mod app;
 mod ui;
 use crate::{
-    app::{App},
+    app::{App, CurrentScreen},
     ui::ui,
 };
 
@@ -37,6 +37,9 @@ fn run(terminal:&mut DefaultTerminal) -> io::Result<()> {
             match key.code {
                 KeyCode::Char('q') => {
                     return Ok(())
+                }
+                KeyCode::Tab => {
+                    app.toggle_screen();
                 }
                 _ => {}
             }

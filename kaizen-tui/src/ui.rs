@@ -6,7 +6,7 @@ use ratatui::{
     Frame,
 };
 
-use crate::app::{App};
+use crate::app::{App, CurrentScreen};
 
 pub fn ui(frame:&mut Frame, app: &App) {
 
@@ -37,14 +37,46 @@ pub fn ui(frame:&mut Frame, app: &App) {
             "Goal",
             Style::default().fg(Color::Green),
             ))
-        .block(title_block.clone());
+        .block(title_block.clone())
+        .centered();
 
     let right_title = Paragraph::new(Text::styled(
             "Score",
             Style::default().fg(Color::Green),
             ))
-        .block(title_block);
+        .block(title_block)
+        .centered();
 
     frame.render_widget(left_title, horizontal_chunks[1]);
     frame.render_widget(right_title, horizontal_chunks[2]);
+
+    if let CurrentScreen::Learning = &app.current_screen {
+        let popup_block = Block::default()
+            .title("chat")
+            .borders(Borders::ALL)
+            .style(Style::default().bg(Color::DarkGray));
+
+        let area = centered_rect(60, 25, frame.area());
+        frame.render_widget(popup_block, area);
+    }
+}
+
+fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
+    let popup_layout = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Percentage((100 - percent_y) / 2), 
+            Constraint::Percentage(percent_y),
+            Constraint::Percentage((100 - percent_y) / 2),
+        ])
+        .split(r);
+
+    Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Percentage((100 - percent_x) / 2), 
+            Constraint::Percentage(percent_x),
+            Constraint::Percentage((100 - percent_x) / 2),
+        ])
+        .split(popup_layout[1])[1]
 }
