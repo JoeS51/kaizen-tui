@@ -41,6 +41,12 @@ fn run(terminal:&mut DefaultTerminal) -> io::Result<()> {
                 KeyCode::Tab => {
                     app.toggle_screen();
                 }
+                KeyCode::Enter => {
+                    if let CurrentScreen::Learning = &app.current_screen {
+                        app.toggle_screen();
+                        app.save_entry();
+                    }
+                }
                 _ => {}
             }
         }
