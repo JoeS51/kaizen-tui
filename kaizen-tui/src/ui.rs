@@ -56,7 +56,7 @@ pub fn ui(frame:&mut Frame, app: &App) {
     }
 
     let list = List::new(list_items);
-    frame.render_widget(list, horizontal_chunks[1]);
+    frame.render_widget(list, horizontal_chunks[2]);
 
     frame.render_widget(left_title, horizontal_chunks[1]);
     frame.render_widget(right_title, horizontal_chunks[2]);
@@ -68,7 +68,16 @@ pub fn ui(frame:&mut Frame, app: &App) {
             .style(Style::default().bg(Color::DarkGray));
 
         let area = centered_rect(60, 25, frame.area());
+
+        let popup_chunks = Layout::default()
+            .direction(Direction::Horizontal)
+            .margin(1)
+            .constraints([Constraint::Percentage(100)])
+            .split(area);
+
+        let key_text = Paragraph::new(app.key.clone());
         frame.render_widget(popup_block, area);
+        frame.render_widget(key_text, popup_chunks[0]);
     }
 }
 

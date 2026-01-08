@@ -19,8 +19,8 @@ impl App {
             current_screen: CurrentScreen::Main,
             exit: false,
             entries: HashMap::new(),
-            key: "key".to_string(),
-            value: "value".to_string(),
+            key: String::from("key"),
+            value: String::from("value"),
         }
     }
 
@@ -33,7 +33,7 @@ impl App {
 
     pub fn save_entry(&mut self) {
         self.entries.insert(self.key.clone(), self.value.clone());
-
+        println!("test");
         self.key = String::new();
         self.value = String::new();
     }

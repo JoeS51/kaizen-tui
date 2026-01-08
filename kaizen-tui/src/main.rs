@@ -34,20 +34,47 @@ fn run(terminal:&mut DefaultTerminal) -> io::Result<()> {
                 continue;
             }
 
-            match key.code {
-                KeyCode::Char('q') => {
-                    return Ok(())
-                }
-                KeyCode::Tab => {
-                    app.toggle_screen();
-                }
-                KeyCode::Enter => {
-                    if let CurrentScreen::Learning = &app.current_screen {
-                        app.toggle_screen();
-                        app.save_entry();
+            match app.current_screen {
+                CurrentScreen::Main => {
+                    match key.code {
+                        KeyCode::Char('q') => {
+                            return Ok(())
+                        }
+                        KeyCode::Tab => {
+                            app.toggle_screen();
+                        }
+                        KeyCode::Enter => {
+                            if let CurrentScreen::Learning = &app.current_screen {
+                                app.toggle_screen();
+                                app.save_entry();
+                            }
+                        }
+                        _ => {}
                     }
                 }
-                _ => {}
+                CurrentScreen::Learning => {
+                    match key.code {
+                        KeyCode::Char('q') => {
+                            app.toggle_screen();
+                        }
+                        KeyCode::Tab => {
+                            app.toggle_screen();
+                        }
+                        KeyCode::Char(value) => {
+                            app.key.push(value);
+                        }
+                        KeyCode::Backspace => {
+                            app.key.pop();
+                        }
+                        KeyCode::Enter => {
+                            if let CurrentScreen::Learning = &app.current_screen {
+                                app.toggle_screen();
+                                app.save_entry();
+                            }
+                        }
+                        _ => {}
+                    }
+                }
             }
         }
     }
