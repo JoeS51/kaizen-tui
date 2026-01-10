@@ -55,7 +55,7 @@ pub fn ui(frame:&mut Frame, app: &App) {
         ))));
     }
 
-    let list = List::new(list_items);
+    let list = List::new(list_items).block(Block::default().borders(Borders::ALL).title("Entries"));
     frame.render_widget(list, horizontal_chunks[1]);
 
     frame.render_widget(left_title, horizontal_chunks[1]);
