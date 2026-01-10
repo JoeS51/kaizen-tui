@@ -33,7 +33,6 @@ impl App {
 
     pub fn save_entry(&mut self) {
         self.entries.insert(self.key.clone(), self.value.clone());
-        println!("test");
         self.key = String::new();
         self.value = String::new();
     }

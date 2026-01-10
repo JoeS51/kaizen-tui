@@ -34,7 +34,7 @@ pub fn ui(frame:&mut Frame, app: &App) {
         .style(Style::default());
 
     let left_title = Paragraph::new(Text::styled(
-            "Goal",
+            "Learnt",
             Style::default().fg(Color::Green),
             ))
         .block(title_block.clone())
@@ -50,13 +50,13 @@ pub fn ui(frame:&mut Frame, app: &App) {
     let mut list_items = Vec::<ListItem>::new();
     for key in app.entries.keys() {
         list_items.push(ListItem::new(Line::from(Span::styled(
-                        format!("{} : {}", key, app.entries.get(key).unwrap()),
+                        format!("{: <25} : {}", key, app.entries.get(key).unwrap()),
                         Style::default().fg(Color::Green),
         ))));
     }
 
     let list = List::new(list_items);
-    frame.render_widget(list, horizontal_chunks[2]);
+    frame.render_widget(list, horizontal_chunks[1]);
 
     frame.render_widget(left_title, horizontal_chunks[1]);
     frame.render_widget(right_title, horizontal_chunks[2]);
