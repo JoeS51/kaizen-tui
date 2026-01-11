@@ -19,8 +19,8 @@ impl App {
             current_screen: CurrentScreen::Main,
             exit: false,
             entries: HashMap::new(),
-            key: String::from("key"),
-            value: String::from("value"),
+            key: String::from(""),
+            value: String::from("test"),
         }
     }
 

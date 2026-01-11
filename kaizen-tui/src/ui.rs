@@ -29,6 +29,22 @@ pub fn ui(frame:&mut Frame, app: &App) {
         ])
         .split(vertical_chunks[1]);
 
+    let left_chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(3),
+            Constraint::Min(0)
+        ])
+        .split(horizontal_chunks[1]);
+
+    let right_chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(3),
+            Constraint::Min(0)
+        ])
+        .split(horizontal_chunks[2]);
+
     let title_block = Block::default()
         .borders(Borders::ALL)
         .style(Style::default());
@@ -48,15 +64,24 @@ pub fn ui(frame:&mut Frame, app: &App) {
         .centered();
 
     let mut list_items = Vec::<ListItem>::new();
+    let mut list_items_vals = Vec::<ListItem>::new();
     for key in app.entries.keys() {
         list_items.push(ListItem::new(Line::from(Span::styled(
-                        format!("{: <25} : {}", key, app.entries.get(key).unwrap()),
+                        format!("{: <25}", key),
+                        Style::default().fg(Color::Green),
+        ))));
+    }
+    for key in app.entries.keys() {
+        list_items_vals.push(ListItem::new(Line::from(Span::styled(
+                        format!("{: <25}", app.entries.get(key).unwrap()),
                         Style::default().fg(Color::Green),
         ))));
     }
 
-    let list = List::new(list_items).block(Block::default().borders(Borders::ALL).title("Entries"));
-    frame.render_widget(list, horizontal_chunks[1]);
+    let list = List::new(list_items).block(Block::default().borders(Borders::ALL));
+    let list_val = List::new(list_items_vals).block(Block::default().borders(Borders::ALL));
+    frame.render_widget(list, left_chunks[1]);
+    frame.render_widget(list_val, right_chunks[1]);
 
     frame.render_widget(left_title, horizontal_chunks[1]);
     frame.render_widget(right_title, horizontal_chunks[2]);
